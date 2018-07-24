@@ -18,13 +18,12 @@ Allow people to navigate to the website and log one expense at a time by specify
 * Users can choose the currency of the expense and a local currency to see the expenses in.
 
 ### Book of Work
-1. Create first functional test that allows users to log expenses
-2. Create first unit test baed on functional test
-3. Go through TDD cycle to complete first functional test.
-4. Add a favicon icon for the applcation.
-5. Design and style the website
-6. Decide where to release application and set up.
-7. Release the first version of the application!
+1. Create unit tests for first functional test
+2. Go through TDD cycle to complete first functional test.
+3. Add a favicon icon for the applcation.
+4. Simple design and style the website using bootstrap
+5. Decide where to release application and set up.
+6. Release the first version of the application!
 
 Release Notes
 =============
