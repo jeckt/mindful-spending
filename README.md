@@ -3,7 +3,7 @@ README
 
 A simple web application that helps keep track of expenses. Helping users to better budget and progress to financial independence.
 
-You can use this application online when it is released or pull down the code yourself on GitHub and deploy your own local version.
+You can use this application online when it is released or pull down the code yourself on GitHub or deploy your own local version.
 
 Proposed Release
 ================

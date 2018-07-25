@@ -30,7 +30,7 @@ class NewVistorTest(StaticLiveServerTestCase):
         description_box = self.browser.find_element_by_id('id_desc_text')
         self.assertEqual(
             description_box.get_attribute('placeholder'),
-            'Enter short description of expense'
+            'Enter a short description of the expense'
         )
 
         amount_box = self.browser.find_element_by_id('id_amount')
@@ -43,7 +43,7 @@ class NewVistorTest(StaticLiveServerTestCase):
         # breakfast he decides to put that in to give the app
         # a go.
         description_box.send_keys('Smashed Avo for brekkie')
-        amount_box.send_keys(6.50)
+        amount_box.send_keys("6.50")
         amount_box.send_keys(Keys.ENTER)
 
         # After hitting enter, the page refreshes and he
