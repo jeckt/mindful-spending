@@ -20,10 +20,11 @@ Allow people to navigate to the website and log one expense at a time by specify
 ### Book of Work
 1. Create unit tests for first functional test
 2. Go through TDD cycle to complete first functional test.
-3. Add a favicon icon for the applcation.
-4. Simple design and style the website using bootstrap
-5. Decide where to release application and set up.
-6. Release the first version of the application!
+3. Consider refactoring expense logging into a form object.
+4. Add a favicon icon for the applcation.
+5. Simple design and style the website using bootstrap
+6. Decide where to release application and set up.
+7. Release the first version of the application!
 
 Release Notes
 =============
