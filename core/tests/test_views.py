@@ -8,6 +8,7 @@ class HomePageTest(TestCase):
         response = self.client.get('/')
         self.assertTemplateUsed(response, 'home.html')
 
+    # TODO(steve): should we name the app core or expenses?!?
     def test_can_save_POST_request(self):
         self.client.post('/expenses/new', data={
             'description': 'new expense',
@@ -18,3 +19,10 @@ class HomePageTest(TestCase):
         new_expense = Expense.objects.first()
         self.assertEqual(new_expense.description, 'new expense')
         self.assertEqual(new_expense.amount, 6.5)
+
+    def test_POST_redirects_to_home_page(self):
+        response = self.client.post('/expenses/new', data={
+            'description': 'new expense',
+            'amount': 6.5
+        })
+        self.assertRedirects(response, '/')

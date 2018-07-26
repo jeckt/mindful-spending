@@ -14,9 +14,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.conf.urls import url
+from django.conf.urls import include, url
 
 from core import views as core_views
+from core import urls as core_urls
 
 # TODO(steve): the default for Django 2.0 was
 # set to from django.urls import path and paths
@@ -24,5 +25,6 @@ from core import views as core_views
 # which should we use??
 urlpatterns = [
     #path('admin/', admin.site.urls),
-    url('^$', core_views.home_page, name='home')
+    url(r'^$', core_views.home_page, name='home'),
+    url(r'^expenses/', include(core_urls)),
 ]
