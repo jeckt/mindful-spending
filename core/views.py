@@ -3,7 +3,8 @@ from django.shortcuts import render, redirect
 from core.models import Expense
 
 def home_page(request):
-    return render(request, 'home.html')
+    expenses = Expense.objects.all()
+    return render(request, 'home.html', {'expenses': expenses})
 
 def new_expense(request):
     expense = Expense.objects.create(

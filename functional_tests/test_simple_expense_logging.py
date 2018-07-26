@@ -1,6 +1,7 @@
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
+
+import time
 
 # TODO(steve): Implement wait decorator when checking
 # that expenses have been logged
@@ -44,33 +45,39 @@ class NewVistorTest(StaticLiveServerTestCase):
         # a go.
         description_box.send_keys('Smashed Avo for brekkie')
         amount_box.send_keys("6.50")
-        amount_box.send_keys(Keys.ENTER)
+        self.browser.find_element_by_id('id_submit').click()
+        time.sleep(1)
 
         # After hitting enter, the page refreshes and he
         # can see the smashed avo expense in the log
         rows = self.browser.find_elements_by_tag_name('td')
         self.assertIn('Smashed Avo for brekkie', [row.text for row in rows])
-        self.assertIn('6.50', [row.text for row in rows])
+        self.assertIn('$6.50', [row.text for row in rows])
 
         # After entering the breakfast in the app he decides
         # to take a break and grab a coffee with a work friend,
         # where he tells his friend about the cool new app!
         # Coming back from coffee and logs that into the app
+        description_box = self.browser.find_element_by_id('id_desc_text')
         description_box.send_keys('Moonbucks Mocha')
-        amount_box.send_keys(2.75)
-        amount_box.send_keys(Keys.ENTER)
+
+        amount_box = self.browser.find_element_by_id('id_amount')
+        amount_box.send_keys("2.75")
+
+        self.browser.find_element_by_id('id_submit').click()
+        time.sleep(1)
 
         # The page updates and shows both expenses with
         # how much each item cost.
         rows = self.browser.find_elements_by_tag_name('td')
         self.assertIn('Smashed Avo for brekkie', [row.text for row in rows])
-        self.assertIn('6.50', [row.text for row in rows])
+        self.assertIn('$6.50', [row.text for row in rows])
         self.assertIn('Moonbucks Mocha', [row.text for row in rows])
-        self.assertIn('2.75', [row.text for row in rows])
+        self.assertIn('$2.75', [row.text for row in rows])
 
         # It shows him the total amount he has spent. Neat!
         rows = self.browser.find_elements_by_tag_name('th')
         self.assertIn('Total', [row.text for row in rows])
-        self.assertIn('9.25', [row.text for row in rows])
+        self.assertIn('$9.25', [row.text for row in rows])
 
         # Before getting too carried away - he gets back to work!
