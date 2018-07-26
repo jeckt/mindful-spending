@@ -1,10 +1,15 @@
 from django.shortcuts import render, redirect
+from django.db.models import Sum
 
 from core.models import Expense
 
 def home_page(request):
     expenses = Expense.objects.all()
-    return render(request, 'home.html', {'expenses': expenses})
+    expense_total = Expense.objects.aggregate(Sum('amount'))['amount__sum']
+    return render(request, 'home.html', {
+        'expenses': expenses,
+        'total_expenses': expense_total
+    })
 
 def new_expense(request):
     expense = Expense.objects.create(

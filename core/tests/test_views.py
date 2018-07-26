@@ -26,3 +26,30 @@ class HomePageTest(TestCase):
             'amount': 6.5
         })
         self.assertRedirects(response, '/')
+
+    def test_expenses_displayed_on_home_page(self):
+        Expense.objects.create(description='expense 1',
+                               amount=5.25
+        )
+        Expense.objects.create(description='expense 2',
+                               amount=2.5
+        )
+
+        response = self.client.get('/')
+
+        self.assertContains(response, 'expense 1')
+        self.assertContains(response, 'expense 2')
+        self.assertContains(response, '5.25')
+        self.assertContains(response, '2.5')
+
+    def test_total_expenses_displayed_on_home_page(self):
+        Expense.objects.create(description='expense 1',
+                               amount=5.25
+        )
+        Expense.objects.create(description='expense 2',
+                               amount=2.5
+        )
+
+        response = self.client.get('/')
+
+        self.assertContains(response, '7.75')
