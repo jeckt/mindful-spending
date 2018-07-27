@@ -1,7 +1,10 @@
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+from selenium.common.exceptions import WebDriverException
 from selenium import webdriver
 
 import time
+
+MAX_WAIT = 20
 
 # TODO(steve): Implement wait decorator when checking
 # that expenses have been logged
@@ -12,6 +15,24 @@ class NewVistorTest(StaticLiveServerTestCase):
 
     def tearDown(self):
         self.browser.quit()
+
+    def wait(fn):
+        def modified_fn(*args, **kwargs):
+            start_time = time.time()
+            while True:
+                try:
+                    return fn(*args, **kwargs)
+                except (AssertionError, WebDriverException) as e:
+                    if time.time() - start_time > MAX_WAIT:
+                        raise e
+                    time.sleep(0.5)
+        return modified_fn
+
+    @wait
+    def wait_for_row_in_list_table(self, description, amount):
+        rows = self.browser.find_elements_by_tag_name('td')
+        self.assertIn(description, [row.text for row in rows])
+        self.assertIn(description, [row.text for row in rows])
 
     def test_vistor_can_log_expenses_and_view_total(self):
         # Harold hears about a cool new web app that allows
@@ -46,13 +67,11 @@ class NewVistorTest(StaticLiveServerTestCase):
         description_box.send_keys('Smashed Avo for brekkie')
         amount_box.send_keys("6.50")
         self.browser.find_element_by_id('id_submit').click()
-        time.sleep(1)
 
         # After hitting enter, the page refreshes and he
         # can see the smashed avo expense in the log
-        rows = self.browser.find_elements_by_tag_name('td')
-        self.assertIn('Smashed Avo for brekkie', [row.text for row in rows])
-        self.assertIn('$6.50', [row.text for row in rows])
+        self.wait_for_row_in_list_table('Smashed Avo for brekkie',
+                                        '$6.50')
 
         # After entering the breakfast in the app he decides
         # to take a break and grab a coffee with a work friend,
@@ -65,15 +84,13 @@ class NewVistorTest(StaticLiveServerTestCase):
         amount_box.send_keys("2.75")
 
         self.browser.find_element_by_id('id_submit').click()
-        time.sleep(1)
 
         # The page updates and shows both expenses with
         # how much each item cost.
-        rows = self.browser.find_elements_by_tag_name('td')
-        self.assertIn('Smashed Avo for brekkie', [row.text for row in rows])
-        self.assertIn('$6.50', [row.text for row in rows])
-        self.assertIn('Moonbucks Mocha', [row.text for row in rows])
-        self.assertIn('$2.75', [row.text for row in rows])
+        self.wait_for_row_in_list_table('Smashed Avo for brekkie',
+                                        '$6.50')
+        self.wait_for_row_in_list_table('Moonbucks Mocha',
+                                        '$2.75')
 
         # It shows him the total amount he has spent. Neat!
         rows = self.browser.find_elements_by_tag_name('th')
