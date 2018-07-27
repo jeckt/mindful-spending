@@ -18,13 +18,13 @@ Allow people to navigate to the website and log one expense at a time by specify
 * Users can choose the currency of the expense and a local currency to see the expenses in.
 
 ### Book of Work
-1. Create unit tests for first functional test
-2. Go through TDD cycle to complete first functional test.
-3. Consider refactoring expense logging into a form object.
-4. Add a favicon icon for the applcation.
-5. Simple design and style the website using bootstrap
-6. Decide where to release application and set up.
-7. Release the first version of the application!
+1. Add a favicon icon for the applcation.
+2. Simple design and style the website using bootstrap
+3. Purchase domains (live and staging)
+4. Deploy web application onto digital ocean (from scratch - remove superlists)
+5. Release using Heroku
+6. Write second functional test - refactor into forms, validation and
+   timestamps
 
 Release Notes
 =============
