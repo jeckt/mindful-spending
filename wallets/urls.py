@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.conf.urls import include, url
+from django.contrib.staticfiles.storage import staticfiles_storage
+from django.views.generic.base import RedirectView
 
 from core import views as core_views
 from core import urls as core_urls
@@ -27,4 +29,11 @@ urlpatterns = [
     #path('admin/', admin.site.urls),
     url(r'^$', core_views.home_page, name='home'),
     url(r'^expenses/', include(core_urls)),
+
+    url(r'^favicon.ico$',
+        RedirectView.as_view(
+            url=staticfiles_storage.url('img/favicon.ico'),
+        ),
+        name='favicon'
+    ),
 ]

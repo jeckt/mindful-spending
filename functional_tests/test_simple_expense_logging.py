@@ -6,8 +6,6 @@ import time
 
 MAX_WAIT = 20
 
-# TODO(steve): Implement wait decorator when checking
-# that expenses have been logged
 class NewVistorTest(StaticLiveServerTestCase):
 
     def setUp(self):
@@ -42,9 +40,9 @@ class NewVistorTest(StaticLiveServerTestCase):
 
         # He notices the page title and header contains
         # the name of the web app
-        self.assertIn('wallets', self.browser.title)
+        self.assertIn('Mindful Spending', self.browser.title)
         header_text = self.browser.find_element_by_tag_name('h1').text
-        self.assertIn('wallets', header_text)
+        self.assertIn('Mindful Spending', header_text)
 
         # He sees that there are two input boxes where
         # he is invited to enter a short description
@@ -93,8 +91,7 @@ class NewVistorTest(StaticLiveServerTestCase):
                                         '$2.75')
 
         # It shows him the total amount he has spent. Neat!
-        rows = self.browser.find_elements_by_tag_name('th')
-        self.assertIn('Total', [row.text for row in rows])
+        rows = self.browser.find_elements_by_id('id_total_expense')
         self.assertIn('$9.25', [row.text for row in rows])
 
         # Before getting too carried away - he gets back to work!
