@@ -8,23 +8,23 @@ You can use this application online when it is released or pull down the code yo
 Proposed Release
 ================
 
-Allow people to navigate to the website and log one expense at a time by specifying a description and amount. The app will provide and update the total amount across all expenses.
+Currently invalid input triggers a hard crash - since there is no data validation. Next release will include prodive data validation.
 
-### Missing Features
-* Each user has their own list of expenses.
-* Users can log in to their account and have the expenses persist
-* Users can change the date of when the expenses occured.
-* Users can allocate an account to each account.
-* Users can choose the currency of the expense and a local currency to see the expenses in.
+### Feature Pipeline
+1. Users are warned of invalid expense input.
+2. Users can see timestamp for each expense.
+3. Users can delete existing expenses.
+4. Users can change the date of when the expenses occured.
+5. Each user has their own list of expenses.
+6. Users can log in to their account and have the expenses persist
+7. Users can choose the currency of the expense and a local currency to see the expenses in.
+8. Users can allocate an account to each account.
 
 ### Book of Work
-1. Add a favicon icon for the applcation.
-2. Simple design and style the website using bootstrap
-3. Purchase domains (live and staging)
-4. Deploy web application onto digital ocean (from scratch - remove superlists)
-5. Release using Heroku
-6. Write second functional test - refactor into forms, validation and
-   timestamps
+1. Write second functional test - expense validation
+2. Refactor expense input into a form object
+3. Write automated deployment script using Fabric
+4. Another FT! - Add timestamps when user logs (careful of timezones!)
 
 Release Notes
 =============
@@ -32,3 +32,8 @@ Release Notes
 ### 0.0.1 (24 July 2018)
 
 * Conception
+
+### 0.1.0 (30 July 2018)
+
+* First release!
+* Global list that everyone can access and log expenses that never disappear!

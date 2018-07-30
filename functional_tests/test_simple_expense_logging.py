@@ -2,17 +2,25 @@ from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium.common.exceptions import WebDriverException
 from selenium import webdriver
 
+import os
 import time
 
 MAX_WAIT = 20
 
 class NewVistorTest(StaticLiveServerTestCase):
 
+    # TODO(steve): automate with Fabric to reset the
+    # database when in staging_server or else it
+    # will fail without manually resetting db.
     def setUp(self):
         self.browser = webdriver.Firefox()
+        self.staging_server = os.environ.get('STAGING_SERVER')
+        if self.staging_server:
+            self.live_server_url = 'http://' + self.staging_server
 
     def tearDown(self):
         self.browser.quit()
+        super().tearDown()
 
     def wait(fn):
         def modified_fn(*args, **kwargs):
