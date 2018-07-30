@@ -22,6 +22,7 @@ Currently invalid input triggers a hard crash - since there is no data validatio
 
 ### Book of Work
 1. Write second functional test - expense validation
+3. Write expense form unit tests - consider whether to add all edge cases.
 2. Refactor expense input into a form object
 3. Write automated deployment script using Fabric
 4. Another FT! - Add timestamps when user logs (careful of timezones!)
