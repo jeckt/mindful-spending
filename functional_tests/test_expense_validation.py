@@ -4,7 +4,7 @@ class ExpenseValidationTest(FunctionalTest):
 
     # TODO(steve): is this test too long?!
     # Should we test the edge cases or should the unit test?
-    def test_cannot_add_empty_expense_amount(self):
+    def test_cannot_add_empty_expense_amount_or_description(self):
         # Harold goes to the home page and accidentally
         # clicks the log button before even adding an amount
         # to his burger for lunch!
@@ -35,6 +35,7 @@ class ExpenseValidationTest(FunctionalTest):
         ))
 
         # He removes the minus in the amount and tries again.
+        self.browser.find_element_by_id('id_amount').clear()
         amount_box = self.browser.find_element_by_id('id_amount')
         amount_box.send_keys("8.35")
         self.wait_for(lambda: self.browser.find_element_by_css_selector(
