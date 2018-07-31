@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.utils.html import escape
 
 from core.models import Expense
 
@@ -53,3 +54,59 @@ class HomePageTest(TestCase):
         response = self.client.get('/')
 
         self.assertContains(response, '7.75')
+
+    # TODO(steve): should we move this into separate test cases?!
+    def test_for_invalid_input_nothing_saved_to_db(self):
+        self.client.post('/expenses/new', data={
+            'description': '',
+            'amount': 5.25
+        })
+        self.assertEqual(Expense.objects.count(), 0)
+
+        self.client.post('/expenses/new', data={
+            'description': '',
+            'amount': ''
+        })
+        self.assertEqual(Expense.objects.count(), 0)
+
+        self.client.post('/expenses/new', data={
+            'description': 'No amount',
+            'amount': ''
+        })
+        self.assertEqual(Expense.objects.count(), 0)
+
+        self.client.post('/expenses/new', data={
+            'description': 'Negative amount',
+            'amount': 6.5
+        })
+        self.assertEqual(Expense.objects.count(), 0)
+
+    def test_empty_description_shows_errors(self):
+        response = self.client.post('/expense/new', data={
+            'description': '',
+            'amount': 5.25
+        })
+
+        expected_error = escape('Expense must have a description')
+        self.assertContains(response, expected_error)
+        self.assertTemplateUsed(response, 'home.html')
+
+    def test_empty_amount_shows_errors(self):
+        response = self.client.post('/expense/new', data={
+            'description': 'No amount',
+            'amount': ''
+        })
+
+        expected_error = escape('Expense must have an amount')
+        self.assertContains(response, expected_error)
+        self.assertTemplateUsed(response, 'home.html')
+
+    def test_empty_amount_shows_errors(self):
+        response = self.client.post('/expense/new', data={
+            'description': 'Negative amount',
+            'amount': -0.4
+        })
+
+        expected_error = escape('Expense must have positive amount')
+        self.assertContains(response, expected_error)
+        self.assertTemplateUsed(response, 'home.html')
