@@ -77,12 +77,12 @@ class HomePageTest(TestCase):
 
         self.client.post('/expenses/new', data={
             'description': 'Negative amount',
-            'amount': 6.5
+            'amount': -0.4
         })
         self.assertEqual(Expense.objects.count(), 0)
 
     def test_empty_description_shows_errors(self):
-        response = self.client.post('/expense/new', data={
+        response = self.client.post('/expenses/new', data={
             'description': '',
             'amount': 5.25
         })
@@ -92,7 +92,7 @@ class HomePageTest(TestCase):
         self.assertTemplateUsed(response, 'home.html')
 
     def test_empty_amount_shows_errors(self):
-        response = self.client.post('/expense/new', data={
+        response = self.client.post('/expenses/new', data={
             'description': 'No amount',
             'amount': ''
         })
@@ -101,8 +101,8 @@ class HomePageTest(TestCase):
         self.assertContains(response, expected_error)
         self.assertTemplateUsed(response, 'home.html')
 
-    def test_empty_amount_shows_errors(self):
-        response = self.client.post('/expense/new', data={
+    def test_negative_amount_shows_errors(self):
+        response = self.client.post('/expenses/new', data={
             'description': 'Negative amount',
             'amount': -0.4
         })
@@ -110,3 +110,4 @@ class HomePageTest(TestCase):
         expected_error = escape('Expense must have positive amount')
         self.assertContains(response, expected_error)
         self.assertTemplateUsed(response, 'home.html')
+
