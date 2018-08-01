@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.utils.html import escape
 
 from core.models import Expense
-from core.views import (
+from core.forms import (
     EMPTY_DESCRIPTION_ERROR, EMPTY_AMOUNT_ERROR, NEGATIVE_AMOUNT_ERROR
 )
 

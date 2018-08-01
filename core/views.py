@@ -3,12 +3,12 @@ from django.db.models import Sum
 from django.core.exceptions import ValidationError
 
 from core.models import Expense
+from core.forms import (
+    EMPTY_DESCRIPTION_ERROR, EMPTY_AMOUNT_ERROR, NEGATIVE_AMOUNT_ERROR
+)
+
 
 from decimal import Decimal, InvalidOperation
-
-EMPTY_DESCRIPTION_ERROR = 'Expense must have a description'
-EMPTY_AMOUNT_ERROR = 'Expense must have an amount'
-NEGATIVE_AMOUNT_ERROR = 'Expense must have positive amount'
 
 def home_page(request):
     expenses = Expense.objects.all()

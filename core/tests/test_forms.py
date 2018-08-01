@@ -1,7 +1,7 @@
 from django.test import TestCase
 
 from core.forms import ExpenseForm
-from core.views import (
+from core.forms import (
     EMPTY_DESCRIPTION_ERROR, EMPTY_AMOUNT_ERROR, NEGATIVE_AMOUNT_ERROR
 )
 
