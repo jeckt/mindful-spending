@@ -65,12 +65,11 @@ class HomePageTest(TestCase):
         Expense.objects.create(description='expense 2',
                                amount=2.5
         )
-        self.client.post('/expenses/new', data={
+        response = self.client.post('/expenses/new', data={
             'description': '',
             'amount': 6.5
         })
 
-        response = self.client.get('/')
         self.assertContains(response, 'expense 1')
         self.assertContains(response, 'expense 2')
         self.assertContains(response, '5.25')

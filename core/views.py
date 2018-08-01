@@ -41,4 +41,10 @@ def new_expense(request):
     except InvalidOperation:
         error = EMPTY_AMOUNT_ERROR
 
-    return render(request, 'home.html', {'error': error})
+    expenses = Expense.objects.all()
+    expense_total = Expense.objects.aggregate(Sum('amount'))['amount__sum']
+    return render(request, 'home.html', {
+        'error': error,
+        'expenses': expenses,
+        'total_expenses': expense_total
+    })
