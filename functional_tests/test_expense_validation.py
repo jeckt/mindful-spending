@@ -20,14 +20,10 @@ class ExpenseValidationTest(FunctionalTest):
         ))
 
         # He then starts entering an amount for the new item
-        self.get_amount_input_box().clear()
-        self.get_amount_input_box().send_keys("-8.35")
-        self.wait_for(lambda: self.browser.find_element_by_css_selector(
-            '#id_amount:valid'
-        ))
-
         # But forgets he doesn't need to put a minus to show
         # that it is an expense!
+        self.get_amount_input_box().clear()
+        self.get_amount_input_box().send_keys("-8.35")
         self.get_submit_input_button().click()
         self.wait_for(lambda: self.browser.find_element_by_css_selector(
             '#id_amount:invalid'

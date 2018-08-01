@@ -82,6 +82,13 @@ class HomePageTest(TestCase):
 
         self.assertContains(response, '7.75') # total expenses
 
+    def test_for_invalid_input_passes_form_to_template(self):
+        response = self.client.post('/expenses/new', data={
+            'description': '',
+            'amount': 5.25
+        })
+        self.assertIsInstance(response.context['form'], ExpenseForm)
+
     # TODO(steve): should we move this into separate test cases?!
     def test_for_invalid_input_nothing_saved_to_db(self):
         self.client.post('/expenses/new', data={
