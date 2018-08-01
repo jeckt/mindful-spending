@@ -4,7 +4,8 @@ from django.core.exceptions import ValidationError
 
 from core.models import Expense
 from core.forms import (
-    EMPTY_DESCRIPTION_ERROR, EMPTY_AMOUNT_ERROR, NEGATIVE_AMOUNT_ERROR
+    ExpenseForm, EMPTY_DESCRIPTION_ERROR,
+    EMPTY_AMOUNT_ERROR, NEGATIVE_AMOUNT_ERROR
 )
 
 
@@ -14,6 +15,7 @@ def home_page(request):
     expenses = Expense.objects.all()
     expense_total = Expense.objects.aggregate(Sum('amount'))['amount__sum']
     return render(request, 'home.html', {
+        'form': ExpenseForm(),
         'expenses': expenses,
         'total_expenses': expense_total
     })

@@ -3,7 +3,8 @@ from django.utils.html import escape
 
 from core.models import Expense
 from core.forms import (
-    EMPTY_DESCRIPTION_ERROR, EMPTY_AMOUNT_ERROR, NEGATIVE_AMOUNT_ERROR
+    ExpenseForm, EMPTY_DESCRIPTION_ERROR,
+    EMPTY_AMOUNT_ERROR, NEGATIVE_AMOUNT_ERROR
 )
 
 class HomePageTest(TestCase):
@@ -11,6 +12,10 @@ class HomePageTest(TestCase):
     def test_uses_home_template(self):
         response = self.client.get('/')
         self.assertTemplateUsed(response, 'home.html')
+
+    def test_home_page_uses_expense_form(self):
+        response = self.client.get('/')
+        self.assertIsInstance(response.context['form'], ExpenseForm)
 
     # TODO(steve): should we name the app core or expenses?!?
     def test_can_save_POST_request(self):

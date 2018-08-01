@@ -28,16 +28,8 @@
         <div class="col-md-8 col-md-offset-2">
           <form method="POST" action="expenses/new">
             <div class="form-group-row">
-              <div class="col-xs-8">
-                <input id="id_desc_text" type="text"
-                      name="description" class="form-control"
-                  placeholder="Enter a short description of the expense" />
-              </div>
-              <div class="col-xs-2">
-                <input id="id_amount" type="number"
-                      name="amount" class="form-control"
-                      step="0.01" min="0.01" placeholder="$0.00" />
-              </div>
+              <div class="col-xs-8">{{ form.description }}</div>
+              <div class="col-xs-2">{{ form.amount }}</div>
               <div class="col-xs-2">
                 <input id="id_submit" class="btn btn-primary btn-block"
                       type="submit" value="log">

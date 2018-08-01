@@ -35,6 +35,15 @@ class FunctionalTest(StaticLiveServerTestCase):
         self.browser.quit()
         super().tearDown()
 
+    def get_description_input_box(self):
+        return self.browser.find_element_by_id('id_description')
+
+    def get_amount_input_box(self):
+        return self.browser.find_element_by_id('id_amount')
+
+    def get_submit_input_button(self):
+        return self.browser.find_element_by_id('id_submit')
+
     @wait
     def wait_for(self, fn):
         return fn()

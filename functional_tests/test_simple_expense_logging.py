@@ -17,13 +17,13 @@ class NewVistorTest(FunctionalTest):
         # He sees that there are two input boxes where
         # he is invited to enter a short description
         # of the expense and the amount
-        description_box = self.browser.find_element_by_id('id_desc_text')
+        description_box = self.get_description_input_box()
         self.assertEqual(
             description_box.get_attribute('placeholder'),
             'Enter a short description of the expense'
         )
 
-        amount_box = self.browser.find_element_by_id('id_amount')
+        amount_box = self.get_amount_input_box()
         self.assertEqual(
             amount_box.get_attribute('placeholder'),
             '$0.00'
@@ -33,8 +33,9 @@ class NewVistorTest(FunctionalTest):
         # breakfast he decides to put that in to give the app
         # a go.
         description_box.send_keys('Smashed Avo for brekkie')
-        amount_box.send_keys("6.50")
-        self.browser.find_element_by_id('id_submit').click()
+        self.get_amount_input_box().clear()
+        self.get_amount_input_box().send_keys("6.50")
+        self.get_submit_input_button().click()
 
         # After hitting enter, the page refreshes and he
         # can see the smashed avo expense in the log
@@ -45,13 +46,10 @@ class NewVistorTest(FunctionalTest):
         # to take a break and grab a coffee with a work friend,
         # where he tells his friend about the cool new app!
         # Coming back from coffee and logs that into the app
-        description_box = self.browser.find_element_by_id('id_desc_text')
-        description_box.send_keys('Moonbucks Mocha')
-
-        amount_box = self.browser.find_element_by_id('id_amount')
-        amount_box.send_keys("2.75")
-
-        self.browser.find_element_by_id('id_submit').click()
+        self.get_description_input_box().send_keys('Moonbucks Mocha')
+        self.get_amount_input_box().clear()
+        self.get_amount_input_box().send_keys("2.75")
+        self.get_submit_input_button().click()
 
         # The page updates and shows both expenses with
         # how much each item cost.
