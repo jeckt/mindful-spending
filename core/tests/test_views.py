@@ -2,6 +2,9 @@ from django.test import TestCase
 from django.utils.html import escape
 
 from core.models import Expense
+from core.views import (
+    EMPTY_DESCRIPTION_ERROR, EMPTY_AMOUNT_ERROR, NEGATIVE_AMOUNT_ERROR
+)
 
 class HomePageTest(TestCase):
 
@@ -55,6 +58,26 @@ class HomePageTest(TestCase):
 
         self.assertContains(response, '7.75')
 
+    def test_invalid_input_doesnt_clear_previous_expenses(self):
+        Expense.objects.create(description='expense 1',
+                               amount=5.25
+        )
+        Expense.objects.create(description='expense 2',
+                               amount=2.5
+        )
+        self.client.post('/expenses/new', data={
+            'description': '',
+            'amount': 6.5
+        })
+
+        response = self.client.get('/')
+        self.assertContains(response, 'expense 1')
+        self.assertContains(response, 'expense 2')
+        self.assertContains(response, '5.25')
+        self.assertContains(response, '2.5')
+
+        self.assertContains(response, '7.75') # total expenses
+
     # TODO(steve): should we move this into separate test cases?!
     def test_for_invalid_input_nothing_saved_to_db(self):
         self.client.post('/expenses/new', data={
@@ -87,7 +110,7 @@ class HomePageTest(TestCase):
             'amount': 5.25
         })
 
-        expected_error = escape('Expense must have a description')
+        expected_error = escape(EMPTY_DESCRIPTION_ERROR)
         self.assertContains(response, expected_error)
         self.assertTemplateUsed(response, 'home.html')
 
@@ -97,7 +120,7 @@ class HomePageTest(TestCase):
             'amount': ''
         })
 
-        expected_error = escape('Expense must have an amount')
+        expected_error = escape(EMPTY_AMOUNT_ERROR)
         self.assertContains(response, expected_error)
         self.assertTemplateUsed(response, 'home.html')
 
@@ -107,7 +130,7 @@ class HomePageTest(TestCase):
             'amount': -0.4
         })
 
-        expected_error = escape('Expense must have positive amount')
+        expected_error = escape(NEGATIVE_AMOUNT_ERROR)
         self.assertContains(response, expected_error)
         self.assertTemplateUsed(response, 'home.html')
 
