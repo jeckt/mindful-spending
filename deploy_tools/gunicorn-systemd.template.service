@@ -1,0 +1,15 @@
+[Unit]
+Description=Gunicorn server for DOMAIN
+
+[Service]
+Restart=on-failure
+User=steve
+WorkingDirectory=/home/steve/sites/DOMAIN
+EnvironmentFile=/home/steve/sites/DOMAIN/.env
+
+ExecStart=/home/steve/sites/DOMAIN/virtualenv/bin/gunicorn \
+    --bind unix:/tmp/DOMAIN.socket \
+    mindfulspending.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
