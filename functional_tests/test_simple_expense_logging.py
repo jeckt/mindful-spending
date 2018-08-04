@@ -1,5 +1,7 @@
 from .base import FunctionalTest
 
+from datetime import datetime
+
 class NewVistorTest(FunctionalTest):
 
     def test_vistor_can_log_expenses_and_view_total(self):
@@ -7,6 +9,7 @@ class NewVistorTest(FunctionalTest):
         # him to log expenses. He goes to the homepage to
         # check it out
         self.browser.get(self.live_server_url)
+        today = datetime.today()
 
         # He notices the page title and header contains
         # the name of the web app
@@ -40,7 +43,8 @@ class NewVistorTest(FunctionalTest):
         # After hitting enter, the page refreshes and he
         # can see the smashed avo expense in the log
         self.wait_for_row_in_list_table('Smashed Avo for brekkie',
-                                        '$6.50')
+                                        '$6.50',
+                                        today)
 
         # After entering the breakfast in the app he decides
         # to take a break and grab a coffee with a work friend,
@@ -54,9 +58,11 @@ class NewVistorTest(FunctionalTest):
         # The page updates and shows both expenses with
         # how much each item cost.
         self.wait_for_row_in_list_table('Smashed Avo for brekkie',
-                                        '$6.50')
+                                        '$6.50',
+                                        today)
         self.wait_for_row_in_list_table('Moonbucks Mocha',
-                                        '$2.75')
+                                        '$2.75',
+                                        today)
 
         # It shows him the total amount he has spent. Neat!
         rows = self.browser.find_elements_by_id('id_total_expense')

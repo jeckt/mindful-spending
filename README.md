@@ -8,23 +8,32 @@ You can use this application online when it is released or pull down the code yo
 Proposed Release
 ================
 
-Currently invalid input triggers a hard crash - since there is no data validation. Next release will include prodive data validation.
+There is no sense of when the expense was logged. We add a date to our expenses
+so users can track a trend in their expenses over time.
 
 ### Feature Pipeline
-1. Users are warned of invalid expense input.
-2. Users can see timestamp for each expense.
-3. Users can delete existing expenses.
-4. Users can change the date of when the expenses occured.
-5. Each user has their own list of expenses.
-6. Users can log in to their account and have the expenses persist
-7. Users can choose the currency of the expense and a local currency to see the expenses in.
-8. Users can allocate an account to each account.
+1. Users can see date for each expense.
+2. Users can delete existing expenses.
+3. Users can change the date of when the expenses occured. (other edits)
+4. Each user has their own list of expenses.
+5. Users can log in to their account and have the expenses persist
+6. Users can choose the currency of the expense and a local currency to see the expenses in.
+7. Users can allocate an account to each account.
 
 ### Book of Work
-1. Write expense form unit tests - consider whether to add all edge cases.
-2. Refactor expense input into a form object
-3. Write automated deployment script using Fabric
-4. Another FT! - Add timestamps when user logs (careful of timezones!)
+1. Write unit tests (views + forms + models) for adding dates for expenses.
+2. Implement date feature + deploy.
+3. Design how users will be able to delete expenses.
+4. Write functional tests on deleting existing expenses.
+5. Write unit tests for deleting existing expenses.
+
+### Development Notes
+
+The user/visitor will pass the date of the expense through a post request. This
+will not be editable by the user to start with (future release feature) but
+still will be visible for them to see. The reason to adopt this approach is
+because if the web server was to decide the date this may differ to what the
+user/visitor expects due to timezone differences!
 
 Release Notes
 =============
@@ -37,3 +46,8 @@ Release Notes
 
 * First release!
 * Global list that everyone can access and log expenses that never disappear!
+
+### 0.1.1 (3 August 2018)
+
+* Deploy the live website
+* Expense validation.

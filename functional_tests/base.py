@@ -47,7 +47,8 @@ class FunctionalTest(StaticLiveServerTestCase):
         return fn()
 
     @wait
-    def wait_for_row_in_list_table(self, description, amount):
+    def wait_for_row_in_list_table(self, description, amount, expense_date):
         rows = self.browser.find_elements_by_tag_name('td')
         self.assertIn(description, [row.text for row in rows])
-        self.assertIn(description, [row.text for row in rows])
+        self.assertIn(amount, [row.text for row in rows])
+        self.assertIn(expense_date, [row.text for row in rows])
