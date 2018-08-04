@@ -17,6 +17,20 @@ class HomePageTest(TestCase):
         response = self.client.get('/')
         self.assertIsInstance(response.context['form'], ExpenseForm)
 
+    def post_expense_with_empty_description(self):
+        return self.client.post('/expenses/new', data={
+            'description': '',
+            'amount': 5.25
+        })
+
+    def create_two_expense_objects(self):
+        Expense.objects.create(description='expense 1',
+                               amount=5.25
+        )
+        Expense.objects.create(description='expense 2',
+                               amount=2.5
+        )
+
     # TODO(steve): should we name the app core or expenses?!?
     def test_can_save_POST_request(self):
         self.client.post('/expenses/new', data={
@@ -37,12 +51,7 @@ class HomePageTest(TestCase):
         self.assertRedirects(response, '/')
 
     def test_expenses_displayed_on_home_page(self):
-        Expense.objects.create(description='expense 1',
-                               amount=5.25
-        )
-        Expense.objects.create(description='expense 2',
-                               amount=2.5
-        )
+        self.create_two_expense_objects()
 
         response = self.client.get('/')
 
@@ -52,29 +61,13 @@ class HomePageTest(TestCase):
         self.assertContains(response, '2.5')
 
     def test_total_expenses_displayed_on_home_page(self):
-        Expense.objects.create(description='expense 1',
-                               amount=5.25
-        )
-        Expense.objects.create(description='expense 2',
-                               amount=2.5
-        )
-
+        self.create_two_expense_objects()
         response = self.client.get('/')
-
         self.assertContains(response, '7.75')
 
     def test_invalid_input_doesnt_clear_previous_expenses(self):
-        Expense.objects.create(description='expense 1',
-                               amount=5.25
-        )
-        Expense.objects.create(description='expense 2',
-                               amount=2.5
-        )
-        response = self.client.post('/expenses/new', data={
-            'description': '',
-            'amount': 6.5
-        })
-
+        self.create_two_expense_objects()
+        response = self.post_expense_with_empty_description()
         self.assertContains(response, 'expense 1')
         self.assertContains(response, 'expense 2')
         self.assertContains(response, '5.25')
@@ -83,18 +76,12 @@ class HomePageTest(TestCase):
         self.assertContains(response, '7.75') # total expenses
 
     def test_for_invalid_input_passes_form_to_template(self):
-        response = self.client.post('/expenses/new', data={
-            'description': '',
-            'amount': 5.25
-        })
+        response = self.post_expense_with_empty_description()
         self.assertIsInstance(response.context['form'], ExpenseForm)
 
     # TODO(steve): should we move this into separate test cases?!
     def test_for_invalid_input_nothing_saved_to_db(self):
-        self.client.post('/expenses/new', data={
-            'description': '',
-            'amount': 5.25
-        })
+        self.post_expense_with_empty_description()
         self.assertEqual(Expense.objects.count(), 0)
 
         self.client.post('/expenses/new', data={
@@ -116,11 +103,7 @@ class HomePageTest(TestCase):
         self.assertEqual(Expense.objects.count(), 0)
 
     def test_empty_description_shows_errors(self):
-        response = self.client.post('/expenses/new', data={
-            'description': '',
-            'amount': 5.25
-        })
-
+        response = self.post_expense_with_empty_description()
         expected_error = escape(EMPTY_DESCRIPTION_ERROR)
         self.assertContains(response, expected_error)
         self.assertTemplateUsed(response, 'home.html')
@@ -144,4 +127,3 @@ class HomePageTest(TestCase):
         expected_error = escape(NEGATIVE_AMOUNT_ERROR)
         self.assertContains(response, expected_error)
         self.assertTemplateUsed(response, 'home.html')
-
