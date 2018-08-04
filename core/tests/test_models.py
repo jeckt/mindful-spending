@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 from core.models import Expense
 
 from decimal import Decimal
+from datetime import date
 
 class ExpenseModelTest(TestCase):
 
@@ -11,6 +12,7 @@ class ExpenseModelTest(TestCase):
         expense = Expense()
         self.assertEqual(expense.description, '')
         self.assertEqual(expense.amount, Decimal('0'))
+        self.assertEqual(expense.date, date.today())
 
     def test_cannot_save_expense_with_no_description(self):
         expense = Expense.objects.create(description='',
@@ -42,3 +44,13 @@ class ExpenseModelTest(TestCase):
         )
         expense.save()
         expense.full_clean() # should not raise
+
+    def test_cannot_save_expense_with_no_date(self):
+        with self.assertRaises(ValidationError):
+            expense = Expense.objects.create(
+                description='expense',
+                amount=Decimal('1'),
+                date=''
+            )
+            expense.save()
+            expense.full_clean()

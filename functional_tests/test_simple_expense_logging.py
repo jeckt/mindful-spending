@@ -1,6 +1,6 @@
 from .base import FunctionalTest
 
-from datetime import datetime
+from datetime import date
 
 class NewVistorTest(FunctionalTest):
 
@@ -9,7 +9,7 @@ class NewVistorTest(FunctionalTest):
         # him to log expenses. He goes to the homepage to
         # check it out
         self.browser.get(self.live_server_url)
-        today = datetime.today().date().strftime('%d-%b-%Y')
+        today = date.today().strftime('%d-%b-%Y')
 
         # He notices the page title and header contains
         # the name of the web app

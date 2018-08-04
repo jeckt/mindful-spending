@@ -7,14 +7,22 @@ from core.forms import (
     EMPTY_AMOUNT_ERROR, NEGATIVE_AMOUNT_ERROR
 )
 
+from datetime import date
+
+today = date.today()
+today_string = today.strftime('%d-%b-%Y')
+
 def create_two_expense_objects():
     Expense.objects.create(description='expense 1',
-                           amount=5.25
+                           amount=5.25,
+                           date=today
     )
     Expense.objects.create(description='expense 2',
-                           amount=2.5
+                           amount=2.5,
+                           date=today
     )
 
+# TODO(steve): should we name the app core or expenses?!?
 class HomePageTest(TestCase):
 
     def test_uses_home_template(self):
@@ -25,7 +33,6 @@ class HomePageTest(TestCase):
         response = self.client.get('/')
         self.assertIsInstance(response.context['form'], ExpenseForm)
 
-    # TODO(steve): should we name the app core or expenses?!?
     def test_can_save_POST_request(self):
         self.client.post('/expenses/new', data={
             'description': 'new expense',
@@ -53,6 +60,7 @@ class HomePageTest(TestCase):
         self.assertContains(response, 'expense 2')
         self.assertContains(response, '5.25')
         self.assertContains(response, '2.5')
+        self.assertEqual(response.content.decode().count(today_string), 2)
 
     def test_total_expenses_displayed_on_home_page(self):
         create_two_expense_objects()
@@ -74,6 +82,7 @@ class ExpenseValidationViewTest(TestCase):
         self.assertContains(response, 'expense 2')
         self.assertContains(response, '5.25')
         self.assertContains(response, '2.5')
+        self.assertEqual(response.content.decode().count(today_string), 2)
 
         self.assertContains(response, '7.75') # total expenses
 

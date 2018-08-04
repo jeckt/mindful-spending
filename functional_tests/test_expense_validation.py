@@ -1,6 +1,6 @@
 from .base import FunctionalTest
 
-from datetime import datetime
+from datetime import date
 
 class ExpenseValidationTest(FunctionalTest):
 
@@ -11,7 +11,7 @@ class ExpenseValidationTest(FunctionalTest):
         # clicks the log button before even adding an amount
         # to his burger for lunch!
         self.browser.get(self.live_server_url)
-        today = datetime.today().date().strftime('%d-%b-%Y')
+        today = date.today().strftime('%d-%b-%Y')
         self.get_description_input_box().send_keys('Burger for lunch')
         self.get_submit_input_button().click()
 
