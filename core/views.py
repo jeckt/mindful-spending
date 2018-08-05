@@ -6,6 +6,7 @@ from core.models import Expense
 from core.forms import ExpenseForm
 
 from decimal import Decimal, InvalidOperation
+from datetime import date
 
 def home_page(request):
     expenses = Expense.objects.all()

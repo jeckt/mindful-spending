@@ -10,7 +10,8 @@ from core.forms import (
 from datetime import date
 
 today = date.today()
-today_string = today.strftime('%d-%b-%Y')
+today_display = today.strftime('%d-%b-%Y')
+today_input = today.strftime('%Y-%m-%d')
 
 def create_two_expense_objects():
     Expense.objects.create(description='expense 1',
@@ -36,7 +37,8 @@ class HomePageTest(TestCase):
     def test_can_save_POST_request(self):
         self.client.post('/expenses/new', data={
             'description': 'new expense',
-            'amount': 6.5
+            'amount': 6.5,
+            'date': today_input
         })
 
         self.assertEqual(Expense.objects.count(), 1)
@@ -47,7 +49,8 @@ class HomePageTest(TestCase):
     def test_POST_redirects_to_home_page(self):
         response = self.client.post('/expenses/new', data={
             'description': 'new expense',
-            'amount': 6.5
+            'amount': 6.5,
+            'date': today_input
         })
         self.assertRedirects(response, '/')
 
@@ -60,7 +63,7 @@ class HomePageTest(TestCase):
         self.assertContains(response, 'expense 2')
         self.assertContains(response, '5.25')
         self.assertContains(response, '2.5')
-        self.assertEqual(response.content.decode().count(today_string), 2)
+        self.assertEqual(response.content.decode().count(today_display), 2)
 
     def test_total_expenses_displayed_on_home_page(self):
         create_two_expense_objects()
@@ -72,7 +75,8 @@ class ExpenseValidationViewTest(TestCase):
     def post_expense_with_empty_description(self):
         return self.client.post('/expenses/new', data={
             'description': '',
-            'amount': 5.25
+            'amount': 5.25,
+            'date': today_input
         })
 
     def test_invalid_input_doesnt_clear_previous_expenses(self):
@@ -82,7 +86,7 @@ class ExpenseValidationViewTest(TestCase):
         self.assertContains(response, 'expense 2')
         self.assertContains(response, '5.25')
         self.assertContains(response, '2.5')
-        self.assertEqual(response.content.decode().count(today_string), 2)
+        self.assertEqual(response.content.decode().count(today_display), 2)
 
         self.assertContains(response, '7.75') # total expenses
 

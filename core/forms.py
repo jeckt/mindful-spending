@@ -10,7 +10,7 @@ class ExpenseForm(forms.models.ModelForm):
 
     class Meta:
         model = Expense
-        fields = ('description', 'amount',)
+        fields = ('description', 'amount', 'date',)
         widgets = {
             'description': forms.fields.TextInput(attrs={
                 'placeholder': 'Enter a short description of the expense',
@@ -21,6 +21,7 @@ class ExpenseForm(forms.models.ModelForm):
                 'class': 'form-control',
                 'min': '0.01'
             }),
+            'date': forms.HiddenInput(),
         }
         error_messages = {
             'description': {'required': EMPTY_DESCRIPTION_ERROR},

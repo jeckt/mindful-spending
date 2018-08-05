@@ -21,8 +21,10 @@ so users can track a trend in their expenses over time.
 7. Users can allocate an account to each account.
 
 ### Book of Work
-1. Write unit tests (views + forms + models) for adding dates for expenses.
-2. Implement date feature + deploy.
+1. Find out why form hidden date input generates two input fields
+2. Consider inconsistent date bug - user loads website, leaves it
+for more than a day...will the expense be logged as the day the
+website loaded or the day the expense is submitted???
 3. Design how users will be able to delete expenses.
 4. Write functional tests on deleting existing expenses.
 5. Write unit tests for deleting existing expenses.
