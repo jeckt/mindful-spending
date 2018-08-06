@@ -1,7 +1,5 @@
 from .base import FunctionalTest
 
-from datetime import date
-
 class ExpenseValidationTest(FunctionalTest):
 
     # TODO(steve): is this test too long?!
@@ -11,7 +9,6 @@ class ExpenseValidationTest(FunctionalTest):
         # clicks the log button before even adding an amount
         # to his burger for lunch!
         self.browser.get(self.live_server_url)
-        today = date.today().strftime('%d-%b-%Y')
         self.get_description_input_box().send_keys('Burger for lunch')
         self.get_submit_input_button().click()
 
@@ -43,7 +40,7 @@ class ExpenseValidationTest(FunctionalTest):
         self.get_submit_input_button().click()
         self.wait_for_row_in_list_table('Burger for lunch',
                                         '$8.35',
-                                        today)
+                                        self.expense_date)
 
         # That was difficult! On the drive home from work
         # he decided to buy a Maccas Large Soda and this
@@ -68,7 +65,7 @@ class ExpenseValidationTest(FunctionalTest):
         self.get_submit_input_button().click()
         self.wait_for_row_in_list_table('Burger for lunch',
                                         '$8.35',
-                                        today)
+                                        self.expense_date)
         self.wait_for_row_in_list_table('Maccas Large Soda',
                                         '$1.09',
-                                        today)
+                                        self.expense_date)

@@ -4,6 +4,7 @@ from selenium import webdriver
 
 import os
 import time
+from datetime import date
 
 MAX_WAIT = 20
 
@@ -24,6 +25,7 @@ class FunctionalTest(StaticLiveServerTestCase):
     def setUp(self):
         self.browser = webdriver.Firefox()
         self.staging_server = os.environ.get('STAGING_SERVER')
+        self.expense_date = date.today().strftime('%d-%b-%Y')
         if self.staging_server:
             from .server_tools import reset_database
             self.live_server_url = 'http://' + self.staging_server
