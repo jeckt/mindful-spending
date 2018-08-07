@@ -25,9 +25,11 @@
 {% endblock %}
 
 {% block expense_menu_options %}
-<a href="#">
+{% if expenses %}
+<a href="{% url 'edit_expenses' %}">
   <button id="id_edit" class="btn btn-primary btn-block"/>edit</button>
 </a>
+{% endif %}
 {% endblock %}
 
 {% block expense_list %}

@@ -151,13 +151,24 @@ class ExpenseDeletionTest(TestCase):
         self.client.post(f'/expenses/{expense.id}/delete')
         self.assertEqual(Expense.objects.count(), 0)
 
-    def test_delete_POST_redirects_to_home_page(self):
+    def test_delete_POST_redirects_to_edit_page(self):
         expense = Expense.objects.create()
         response = self.client.post(f'/expenses/{expense.id}/delete')
-        self.assertRedirects(response, '/')
+        self.assertRedirects(response, '/expenses/edit')
 
 class ExpenseEditViewTest(TestCase):
 
     def test_uses_edit_template(self):
         response = self.client.get('/expenses/edit')
         self.assertTemplateUsed(response, 'edit.html')
+
+    def test_expenses_displayed_on_home_page(self):
+        create_two_expense_objects()
+
+        response = self.client.get('/expenses/edit')
+
+        self.assertContains(response, 'expense 1')
+        self.assertContains(response, 'expense 2')
+        self.assertContains(response, '5.25')
+        self.assertContains(response, '2.5')
+        self.assertEqual(response.content.decode().count(today_display), 2)
