@@ -12,19 +12,24 @@ There is no sense of when the expense was logged. We add a date to our expenses
 so users can track a trend in their expenses over time.
 
 ### Feature Pipeline
-1. Users can delete existing expenses.
-2. Users can change the date of when the expenses occured. (other edits)
-3. Each user has their own list of expenses.
-4. Users can log in to their account and have the expenses persist
-5. Users can choose the currency of the expense and a local currency to see the expenses in.
-6. Users can allocate an account to each account.
+1. Users can change the date of when the expenses occured. (other edits)
+2. Each user has their own list of expenses.
+3. Users can log in to their account and have the expenses persist
+4. Users can choose the currency of the expense and a local currency to see the expenses in.
+5. Users can allocate an account to each account.
 
 ### Book of Work
-1. Find out why form hidden date input generates two input fields - this seems to happen with the Django Forms HiddenInput attribute.
-2. Consider inconsistent date bug potentially - test this during a time switch on the raspberry pi!
-3. Design how users will be able to delete expenses.
-4. Write functional tests on deleting existing expenses.
-5. Write unit tests for deleting existing expenses.
+1. Create an edit page as opposed to having the edit functionality on the front page. (move delete there)
+2. Write functional test for the edit functionality.
+  * Edit the date to back date the expenses
+  * Edit description to be more descriptive/update.
+  * Incorrect amount was logged (e.g. did not include tip in amount)
+3. TDD workflow cycle to get edit functionality online
+4. Deploy!
+
+### Back Log
+* (do it when we look at each users has their own list) Consider whether we can refactor our views render doesn't need to pass Exenses/Total expenses.
+* Find out why form hidden date input generates two input fields - this seems to happen with the Django Forms HiddenInput attribute.
 
 ### Development Notes
 

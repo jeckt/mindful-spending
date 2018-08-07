@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mindful Spending</title>
+    <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/style.css" rel="stylesheet">
+    <link href="/static/img/favicon.ico" rel="icon">
+  </head>
+  <body>
+
+    <div id="id_header" class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <div class="text-center">
+          <h1>Mindful Spending</h1>
+          {% if expenses %}
+            <h2 >Total: <span id="id_total_expense">${{ total_expenses }}</span></h2>
+          {% else %}
+            <h2>Total: $0.00</h2>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div id="id_expense_input" class="row">
+        <div class="col-md-8 col-md-offset-2">
+          {% block expense_input %}
+          {% endblock %}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+          {% block expense_list %}
+          {% endblock %}
+        </div>
+      </div>
+
+    </div>
+  </body>
+</html>
