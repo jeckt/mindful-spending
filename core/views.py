@@ -8,12 +8,13 @@ from core.forms import ExpenseForm
 from decimal import Decimal, InvalidOperation
 from datetime import date
 
+# TODO(steve): look at condensing down the render arguments.
+# can we not just access these variables through the template?
 def home_page(request):
-    expenses = Expense.objects.all()
     expense_total = Expense.objects.aggregate(Sum('amount'))['amount__sum']
     return render(request, 'home.html', {
         'form': ExpenseForm(),
-        'expenses': expenses,
+        'expenses': Expense.objects.all(),
         'total_expenses': expense_total
     })
 
@@ -23,11 +24,21 @@ def new_expense(request):
         form.save()
         return redirect('/')
 
-    expenses = Expense.objects.all()
     expense_total = Expense.objects.aggregate(Sum('amount'))['amount__sum']
     return render(request, 'home.html', {
         'form': form,
-        'expenses': expenses,
+        'expenses': Expense.objects.all(),
         'total_expenses': expense_total
     })
 
+def delete_expense(request, expense_id):
+    try:
+        expense = Expense.objects.get(pk=expense_id)
+        expense.delete()
+        return redirect('/')
+    except:
+        expense_total = Expense.objects.aggregate(Sum('amount'))['amount__sum']
+        return render(request, 'home.html', {
+            'expenses': Expense.objects.all(),
+            'total_expenses': expense_total
+        })

@@ -26,7 +26,7 @@
     <div class="container-fluid">
       <div id="id_expense_input" class="row">
         <div class="col-md-8 col-md-offset-2">
-          <form method="POST" action="expenses/new">
+          <form method="POST" action="{% url 'new_expense' %}">
             <div class="form-group-row">
               <div class="col-xs-8">{{ form.description }}</div>
               <div class="col-xs-2">{{ form.amount }}</div>
@@ -59,6 +59,7 @@
                 <th>Date</th>
                 <th>Description</th>
                 <th>Amount</th>
+                <th>Delete?</th>
               </tr>
             </thead>
 
@@ -68,6 +69,13 @@
                   <td>{{ expense.date|date:'d-M-Y' }}</td>
                   <td>{{ expense.description }}</td>
                   <td>${{ expense.amount }}</td>
+                  <td>
+                    <form method="POST" action="{% url 'delete_expense' expense.id %}">
+                      <button id="id_delete_{{ forloop.counter }}" type="submit">
+                        <i class="glyphicon glyphicon-remove"></i>
+                      </button>
+                      {% csrf_token %}
+                    </form>
                 </tr>
               {% endfor %}
             </tbody>
