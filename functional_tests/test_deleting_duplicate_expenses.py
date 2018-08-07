@@ -45,11 +45,19 @@ class ExpenseDeletionTest(FunctionalTest):
         self.wait_for_multiple_rows_in_list_table(description, amount,
                                                   self.expense_date, 2)
 
-        # To fix this he deletes the duplicate entry.
+        # To fix this clicks on the edit button to edit the expenses...
+        self.browser.find_element_by_id('id_edit').click()
+
+        # He sees the duplicate entry and the ability to delete it
+        # with a delete button. So he does!
         self.browser.find_element_by_id('id_delete_2').click()
 
         # The screen refreshs and he only sees one entry!
         self.wait_for_multiple_rows_in_list_table(description, amount,
                                                   self.expense_date, 1)
 
-        # Satisified he drives off!
+        # Satisified he returns to the home page where he can
+        # continue adding expenses!
+        self.browser.find_element_by_id('id_home').click()
+        self.wait_for_multiple_rows_in_list_table(description, amount,
+                                                  self.expense_date, 1)

@@ -155,3 +155,9 @@ class ExpenseDeletionTest(TestCase):
         expense = Expense.objects.create()
         response = self.client.post(f'/expenses/{expense.id}/delete')
         self.assertRedirects(response, '/')
+
+class ExpenseEditViewTest(TestCase):
+
+    def test_uses_edit_template(self):
+        response = self.client.get('/expenses/edit')
+        self.assertTemplateUsed(response, 'edit.html')

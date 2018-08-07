@@ -42,3 +42,6 @@ def delete_expense(request, expense_id):
             'expenses': Expense.objects.all(),
             'total_expenses': expense_total
         })
+
+def edit_expenses(request):
+    return render(request, 'edit.html')

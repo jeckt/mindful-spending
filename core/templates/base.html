@@ -34,6 +34,13 @@
 
       <div class="row">
         <div class="col-md-8 col-md-offset-2">
+          {% block expense_menu_options %}
+          {% endblock %}
+        </div>
+      </div>
+
+      <div style="padding-top: 20px" class="row">
+        <div class="col-md-8 col-md-offset-2">
           {% block expense_list %}
           {% endblock %}
         </div>
