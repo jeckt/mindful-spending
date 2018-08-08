@@ -50,7 +50,8 @@ class ExpenseDeletionTest(FunctionalTest):
 
         # He sees the duplicate entry and the ability to delete it
         # with a delete button. So he does!
-        self.browser.find_element_by_id('id_delete_2').click()
+        self.wait_for(lambda:
+                      self.browser.find_element_by_id('id_delete_2').click())
 
         # The screen refreshs and he only sees one entry!
         self.wait_for_multiple_rows_in_list_table(description, amount,

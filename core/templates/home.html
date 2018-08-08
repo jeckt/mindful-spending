@@ -40,7 +40,6 @@
       <th>Date</th>
       <th>Description</th>
       <th>Amount</th>
-      <th>Delete?</th>
     </tr>
   </thead>
 
@@ -50,13 +49,6 @@
         <td>{{ expense.date|date:'d-M-Y' }}</td>
         <td>{{ expense.description }}</td>
         <td>${{ expense.amount }}</td>
-        <td>
-          <form method="POST" action="{% url 'delete_expense' expense.id %}">
-            <button id="id_delete_{{ forloop.counter }}" type="submit">
-              <i class="glyphicon glyphicon-remove"></i>
-            </button>
-            {% csrf_token %}
-          </form>
       </tr>
     {% endfor %}
   </tbody>

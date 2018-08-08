@@ -1,32 +1,8 @@
 {% extends  'base.html' %}
 
-{% block expense_input %}
-<form method="POST" action="{% url 'new_expense' %}">
-  <div class="form-group-row">
-    <div class="col-xs-8">{{ form.description }}</div>
-    <div class="col-xs-2">{{ form.amount }}</div>
-    <div class="col-xs-2">
-      <input id="id_submit" class="btn btn-primary btn-block"
-            type="submit" value="log">
-    </div>
-  {{ form.date }}
-  {% csrf_token %}
-  {% if form.errors %}
-    {% for field in form %}
-      {% for error in field.errors %}
-        <div class="form-group has-error">
-            <span class="help-block">{{ error }}</span>
-        </div>
-      {% endfor %}
-    {% endfor %}
-  {% endif %}
-  </div>
-</form>
-{% endblock %}
-
 {% block expense_menu_options %}
-<a href="#">
-  <button id="id_edit" class="btn btn-primary btn-block"/>edit</button>
+<a href="{% url 'home' %}">
+  <button id="id_home" class="btn btn-primary btn-block"/>home</button>
 </a>
 {% endblock %}
 
@@ -55,6 +31,7 @@
             </button>
             {% csrf_token %}
           </form>
+        </td>
       </tr>
     {% endfor %}
   </tbody>
