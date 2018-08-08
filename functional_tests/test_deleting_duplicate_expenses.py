@@ -1,5 +1,4 @@
 from .base import FunctionalTest
-
 from .base import wait
 
 class ExpenseDeletionTest(FunctionalTest):

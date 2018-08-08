@@ -25,7 +25,8 @@ so users can track a trend in their expenses over time.
   * Edit description to be more descriptive/update.
   * Incorrect amount was logged (e.g. did not include tip in amount)
 3. TDD workflow cycle to get edit functionality online
-4. Deploy!
+4. Deploy
+5. Allow users to update the expense date on expense entry
 
 ### Back Log
 * (do it when we look at each users has their own list) Consider whether we can refactor our views render doesn't need to pass Exenses/Total expenses.
