@@ -28,6 +28,12 @@ def new_expense(request):
         'total_expenses': total_expenses()
     })
 
+def edit_expenses(request):
+    return render(request, 'edit.html', {
+        'expenses': Expense.objects.all(),
+        'total_expenses': total_expenses()
+    })
+
 def delete_expense(request, expense_id):
     try:
         expense = Expense.objects.get(pk=expense_id)
@@ -39,8 +45,11 @@ def delete_expense(request, expense_id):
             'total_expenses': total_expenses()
         })
 
-def edit_expenses(request):
-    return render(request, 'edit.html', {
-        'expenses': Expense.objects.all(),
-        'total_expenses': total_expenses()
-    })
+def edit_expense(request, expense_id):
+    form = ExpenseForm(data=request.POST)
+    if form.is_valid():
+        expense = Expense.objects.get(pk=expense_id)
+        form = ExpenseForm(data=request.POST, instance = expense)
+        form.save()
+
+    return redirect('/expenses/edit')

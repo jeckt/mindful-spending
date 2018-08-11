@@ -7,7 +7,7 @@ from core.forms import (
     EMPTY_AMOUNT_ERROR, NEGATIVE_AMOUNT_ERROR
 )
 
-from datetime import date
+from datetime import date, timedelta
 
 today = date.today()
 today_display = today.strftime('%d-%b-%Y')
@@ -172,3 +172,77 @@ class ExpenseEditViewTest(TestCase):
         self.assertContains(response, '5.25')
         self.assertContains(response, '2.5')
         self.assertEqual(response.content.decode().count(today_display), 2)
+
+    def test_can_update_POST_request(self):
+        expense = Expense.objects.create(description='expense 1',
+                               amount=5.25,
+                               date=today
+        )
+        self.assertEqual(Expense.objects.count(), 1)
+
+        response = self.client.get('/expenses/edit')
+
+        self.assertContains(response, 'expense 1')
+        self.assertContains(response, '5.25')
+        self.assertContains(response, today_display)
+
+        new_date = (today + timedelta(days=1))
+
+        response = self.client.post(f'/expenses/edit/{expense.id}', data={
+            'description': 'expense 1',
+            'amount': '5.25',
+            'date': new_date.strftime('%Y-%m-%d')
+        })
+
+        response = self.client.get('/expenses/edit')
+
+        self.assertContains(response, 'expense 1')
+        self.assertContains(response, '5.25')
+        self.assertContains(response, new_date.strftime('%d-%b-%Y'))
+
+    def test_invalid_update_does_not_change_expense(self):
+        expense = Expense.objects.create(description='expense 1',
+                               amount=5.25,
+                               date=today
+        )
+        self.assertEqual(Expense.objects.count(), 1)
+
+        response = self.client.get('/expenses/edit')
+
+        self.assertContains(response, 'expense 1')
+        self.assertContains(response, '5.25')
+        self.assertContains(response, today_display)
+
+        response = self.client.post(f'/expenses/edit/{expense.id}', data={
+            'description': 'expense 1',
+            'amount': '5.25',
+            'date': today_input
+        })
+
+        response = self.client.get('/expenses/edit')
+
+        self.assertContains(response, 'expense 1')
+        self.assertContains(response, '5.25')
+        self.assertContains(response, today_display)
+
+    def test_valid_edit_POST_redirects_to_edit_page(self):
+        expense = Expense.objects.create()
+        response = self.client.post(f'/expenses/edit/{expense.id}', data={
+            'description': 'expense 1',
+            'amount': '5.25',
+            'date': today_input
+        })
+        self.assertRedirects(response, '/expenses/edit')
+
+    def test_invalid_edit_POST_redirects_to_edit_page(self):
+        expense = Expense.objects.create()
+        response = self.client.post(f'/expenses/edit/{expense.id}', data={
+            'description': 'expense 1',
+            'amount': '-0.40',
+            'date': today_input
+        })
+        self.assertRedirects(response, '/expenses/edit')
+
+
+    # NOTE(steve): we also need to test that the invalid edits show
+    # error messages

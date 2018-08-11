@@ -19,14 +19,9 @@ so users can track a trend in their expenses over time.
 5. Users can allocate an account to each account.
 
 ### Book of Work
-1. Create an edit page as opposed to having the edit functionality on the front page. (move delete there)
-2. Write functional test for the edit functionality.
-  * Edit the date to back date the expenses
-  * Edit description to be more descriptive/update.
-  * Incorrect amount was logged (e.g. did not include tip in amount)
-3. TDD workflow cycle to get edit functionality online
-4. Deploy
-5. Allow users to update the expense date on expense entry
+1. TDD workflow cycle to get edit functionality online
+2. Deploy
+3. Allow users to update the expense date on expense entry
 
 ### Back Log
 * (do it when we look at each users has their own list) Consider whether we can refactor our views render doesn't need to pass Exenses/Total expenses.
@@ -60,3 +55,7 @@ Release Notes
 ### 0.1.2 (5 August 2018)
 
 * Expenses now have a date of when they were logged.
+
+### 0.1.3 (8 August 2018)
+
+* Expenses can now be deleted.
