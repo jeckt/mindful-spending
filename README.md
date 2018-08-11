@@ -19,9 +19,12 @@ so users can track a trend in their expenses over time.
 5. Users can allocate an account to each account.
 
 ### Book of Work
+1. Add edit functionality for dates into forms...create edit form??? for now
 1. TDD workflow cycle to get edit functionality online
 2. Deploy
-3. Allow users to update the expense date on expense entry
+3. Refactor the code to use page objects and clean the code a touch
+4. Deploy
+5. Allow users to update the expense date on expense entry
 
 ### Back Log
 * (do it when we look at each users has their own list) Consider whether we can refactor our views render doesn't need to pass Exenses/Total expenses.

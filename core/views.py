@@ -28,9 +28,15 @@ def new_expense(request):
         'total_expenses': total_expenses()
     })
 
+# TODO(steve): this logic is slightly messy. Is there a better way??
+# TODO(steve): we pass the expense date for now because it expense date is
+# not editable when first released. We shall change this but for now this
+# will fix the broken delete tests.
 def edit_expenses(request):
+    expense_forms = [ (expense.id, expense.date, ExpenseForm(instance=expense)) for expense in
+                     Expense.objects.all() ]
     return render(request, 'edit.html', {
-        'expenses': Expense.objects.all(),
+        'expense_forms': expense_forms,
         'total_expenses': total_expenses()
     })
 
