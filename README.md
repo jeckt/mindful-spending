@@ -19,10 +19,9 @@ so users can track a trend in their expenses over time.
 5. Users can allocate an account to each account.
 
 ### Book of Work
-1. Add edit functionality for dates into forms...create edit form??? for now
-1. TDD workflow cycle to get edit functionality online
-2. Deploy
-3. Refactor the code to use page objects and clean the code a touch
+1. Deploy
+2. Refactor the code to use page objects
+3. Fix date formatting issues, currently only the `'%Y-%m-%d'` format works
 4. Deploy
 5. Allow users to update the expense date on expense entry
 

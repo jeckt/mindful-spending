@@ -1,6 +1,8 @@
 from .base import FunctionalTest
 from .base import wait
 
+from datetime import date, timedelta
+
 class ExpenseDeletionTest(FunctionalTest):
 
     # TODO(steve): surely this test can be made more readible!
@@ -16,23 +18,6 @@ class ExpenseDeletionTest(FunctionalTest):
         self.assertEqual(len([text for text in rows_text if text ==
                               expense_date]), count)
 
-    # TODO(steve): this should change when when make expense date editable
-    @wait
-    def wait_for_multiple_rows_in_edit_table(self, description, amount,
-                                             expense_date, count):
-        rows = self.browser.find_elements_by_tag_name('td')
-        rows_text = [row.text for row in rows]
-        self.assertEqual(len([ text for text in rows_text if text ==
-                              expense_date]), count)
-
-        input_rows = self.browser.find_elements_by_tag_name('input')
-        input_values = [input_row.get_attribute('value') for input_row in
-                        input_rows]
-        self.assertEqual(len([ value for value in input_values if value ==
-                             description]), count)
-        self.assertEqual(len([ value for value in input_values if value ==
-                             amount]), count)
-
     def test_visitor_can_delete_an_expense(self):
         # Harold is now in the swing of things and is loving the
         # web app. He starts using it religiously. He just got
@@ -41,6 +26,7 @@ class ExpenseDeletionTest(FunctionalTest):
 
         description = 'Gas for car'
         amount = '62.18'
+        expense_date = date.today().strftime('%Y-%m-%d')
 
         self.get_description_input_box().send_keys(description)
         self.get_amount_input_box().send_keys(amount)
@@ -67,13 +53,13 @@ class ExpenseDeletionTest(FunctionalTest):
         # He sees the duplicate entry and the ability to delete it
         # with a delete button. So he does!
         self.wait_for_multiple_rows_in_edit_table(description, amount,
-                                                  self.expense_date, 2)
+                                                  expense_date, 2)
         self.wait_for(lambda:
                       self.browser.find_element_by_id('id_delete_2').click())
 
         # The screen refreshs and he only sees one entry!
         self.wait_for_multiple_rows_in_edit_table(description, amount,
-                                                  self.expense_date, 1)
+                                                  expense_date, 1)
 
         # Satisified he returns to the home page where he can
         # continue adding expenses!

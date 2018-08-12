@@ -162,14 +162,14 @@ class ExpenseDeletionTest(TestCase):
         response = self.client.get('/expenses/edit')
         self.assertContains(response, 'expense 1')
         self.assertContains(response, '5.25')
-        self.assertContains(response, today_display)
+        self.assertContains(response, today_input)
 
         self.client.post(f'/expenses/{expense.id}/delete')
         response = self.client.get('/expenses/edit')
 
         self.assertNotContains(response, 'expense 1')
         self.assertNotContains(response, '5.25')
-        self.assertNotContains(response, today_display)
+        self.assertNotContains(response, today_input)
 
     def test_delete_POST_redirects_to_edit_page(self):
         expense = Expense.objects.create()
@@ -191,7 +191,7 @@ class ExpenseEditViewTest(TestCase):
         self.assertContains(response, 'expense 2')
         self.assertContains(response, '5.25')
         self.assertContains(response, '2.5')
-        self.assertEqual(response.content.decode().count(today_display), 2)
+        self.assertEqual(response.content.decode().count(today_input), 4)
 
     def test_can_update_POST_request(self):
         expense = Expense.objects.create(description='expense 1',
@@ -204,21 +204,21 @@ class ExpenseEditViewTest(TestCase):
 
         self.assertContains(response, 'expense 1')
         self.assertContains(response, '5.25')
-        self.assertContains(response, today_display)
+        self.assertContains(response, today_input)
 
         new_date = (today + timedelta(days=1))
 
         response = self.client.post(f'/expenses/edit/{expense.id}', data={
-            'description': 'expense 1',
-            'amount': '5.25',
+            'description': 'expense 2',
+            'amount': '15.25',
             'date': new_date.strftime('%Y-%m-%d')
         })
 
         response = self.client.get('/expenses/edit')
 
-        self.assertContains(response, 'expense 1')
-        self.assertContains(response, '5.25')
-        self.assertContains(response, new_date.strftime('%d-%b-%Y'))
+        self.assertContains(response, 'expense 2')
+        self.assertContains(response, '15.25')
+        self.assertContains(response, new_date.strftime('%Y-%m-%d'))
 
     def test_invalid_update_does_not_change_expense(self):
         expense = Expense.objects.create(description='expense 1',
@@ -231,7 +231,7 @@ class ExpenseEditViewTest(TestCase):
 
         self.assertContains(response, 'expense 1')
         self.assertContains(response, '5.25')
-        self.assertContains(response, today_display)
+        self.assertContains(response, today_input)
 
         response = self.client.post(f'/expenses/edit/{expense.id}', data={
             'description': 'expense 1',
@@ -243,7 +243,7 @@ class ExpenseEditViewTest(TestCase):
 
         self.assertContains(response, 'expense 1')
         self.assertContains(response, '5.25')
-        self.assertContains(response, today_display)
+        self.assertContains(response, today_input)
 
     def test_valid_edit_POST_redirects_to_edit_page(self):
         expense = Expense.objects.create()

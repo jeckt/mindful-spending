@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.core.exceptions import ValidationError
 
 from core.models import Expense, total_expenses
-from core.forms import ExpenseForm
+from core.forms import ExpenseForm, EditExpenseForm
 
 from decimal import Decimal, InvalidOperation
 from datetime import date
@@ -29,11 +29,8 @@ def new_expense(request):
     })
 
 # TODO(steve): this logic is slightly messy. Is there a better way??
-# TODO(steve): we pass the expense date for now because it expense date is
-# not editable when first released. We shall change this but for now this
-# will fix the broken delete tests.
 def edit_expenses(request):
-    expense_forms = [ (expense.id, expense.date, ExpenseForm(instance=expense)) for expense in
+    expense_forms = [ (expense.id, EditExpenseForm(instance=expense)) for expense in
                      Expense.objects.all() ]
     return render(request, 'edit.html', {
         'expense_forms': expense_forms,
@@ -52,10 +49,10 @@ def delete_expense(request, expense_id):
         })
 
 def edit_expense(request, expense_id):
-    form = ExpenseForm(data=request.POST)
+    form = EditExpenseForm(data=request.POST)
     if form.is_valid():
         expense = Expense.objects.get(pk=expense_id)
-        form = ExpenseForm(data=request.POST, instance = expense)
+        form = EditExpenseForm(data=request.POST, instance = expense)
         form.save()
 
     return redirect('/expenses/edit')

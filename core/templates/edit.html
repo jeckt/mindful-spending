@@ -20,10 +20,10 @@
   </thead>
 
   <tbody>
-    {% for id, expense_date, expense_form in expense_forms %}
+    {% for id, expense_form in expense_forms %}
       <tr>
         <form method="POST" action="{% url 'edit_expense' id %}">
-          <td>{{ expense_date|date:'d-M-Y' }}</td>
+          <td>{{ expense_form.date }}</td>
           <td>{{ expense_form.description }}</td>
           <td>{{ expense_form.amount }}</td>
           <td>

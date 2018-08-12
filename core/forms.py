@@ -30,3 +30,12 @@ class ExpenseForm(forms.models.ModelForm):
                 'min_value': NEGATIVE_AMOUNT_ERROR
             }
         }
+
+class EditExpenseForm(ExpenseForm):
+
+    class Meta(ExpenseForm.Meta):
+        widgets = {
+            'date': forms.fields.DateInput(format=('%Y-%m-%d'),
+               attrs={'class': 'form-control'}
+            ),
+        }

@@ -54,3 +54,19 @@ class FunctionalTest(StaticLiveServerTestCase):
         self.assertIn(description, [row.text for row in rows])
         self.assertIn(amount, [row.text for row in rows])
         self.assertIn(expense_date, [row.text for row in rows])
+
+    @wait
+    def wait_for_multiple_rows_in_edit_table(self, description, amount,
+                                             expense_date, count):
+
+        input_rows = self.browser.find_elements_by_tag_name('input')
+        input_values = [input_row.get_attribute('value') for input_row in
+                        input_rows]
+        self.assertEqual(len([ value for value in input_values if value ==
+                             expense_date]), count * 2)
+        self.assertEqual(len([ value for value in input_values if value ==
+                             description]), count)
+        self.assertEqual(len([ value for value in input_values if value ==
+                             amount]), count)
+
+

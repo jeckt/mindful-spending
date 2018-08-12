@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from core.forms import ExpenseForm
+from core.forms import ExpenseForm, EditExpenseForm
 from core.forms import (
     EMPTY_DESCRIPTION_ERROR, EMPTY_AMOUNT_ERROR, NEGATIVE_AMOUNT_ERROR
 )
@@ -81,3 +81,15 @@ class ExpenseFormTest(TestCase):
             form.errors['amount'],
             [NEGATIVE_AMOUNT_ERROR]
         )
+
+class EditExpenseTest(TestCase):
+
+    def test_form_renders_date_input(self):
+        form = EditExpenseForm()
+        date_html = form.as_p()
+        match = re.search(r'<input(.+?)name="%s"(.+?)/>' % ('date',), date_html)
+        if match:
+            date_html = match.group(0)
+
+        self.assertIn('class="form-control"', date_html)
+        self.assertNotIn('type="hidden"', date_html)
