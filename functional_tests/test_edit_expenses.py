@@ -1,4 +1,5 @@
 from .base import FunctionalTest
+from .page import HomePage, EditPage
 
 from datetime import date, timedelta
 
@@ -9,6 +10,7 @@ class ExpenseEditTest(FunctionalTest):
         # to track expenses and she decides to check
         # it out.
         self.browser.get(self.live_server_url)
+        home_page = HomePage(self)
 
         # She logs her first expense. She normally doesn't
         # have breakfast and today was no exception, so
@@ -26,7 +28,7 @@ class ExpenseEditTest(FunctionalTest):
 
         # Unfortunately it doesn't have the right date!
         # She proceeds to the edit page.
-        self.browser.find_element_by_id('id_edit').click()
+        edit_page = home_page.go_to_edit_page()
 
         # Here she sees that she is able to change the
         # date of the expense and does so.
@@ -35,9 +37,7 @@ class ExpenseEditTest(FunctionalTest):
             date.today().strftime('%Y-%m-%d'),
             1
         )
-        date_input = self.browser.find_elements_by_tag_name('input')[0]
-        date_input.clear()
-        date_input.send_keys(date_string)
+        edit_page.update_date(date_string)
         self.wait_for(lambda:
                       self.browser.find_element_by_id('id_edit_1').click())
 
@@ -49,9 +49,7 @@ class ExpenseEditTest(FunctionalTest):
 
         # Thinking again she forgot about the tip! So
         # she goes ahead and updates that as well.
-        amount_input = self.browser.find_elements_by_tag_name('input')[3]
-        amount_input.clear()
-        amount_input.send_keys('47.10')
+        edit_page.update_amount('47.10')
         self.wait_for(lambda:
                       self.browser.find_element_by_id('id_edit_1').click())
 
@@ -62,7 +60,7 @@ class ExpenseEditTest(FunctionalTest):
 
         # Satisfied she returns to the home page
         # and see the changes have persisted.
-        self.browser.find_element_by_id('id_home').click()
+        edit_page.go_to_home_page()
         self.wait_for_row_in_list_table('Beers after work',
                                         '$47.10',
                                         expense_date.strftime('%d-%b-%Y'))

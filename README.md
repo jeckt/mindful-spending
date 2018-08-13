@@ -61,3 +61,8 @@ Release Notes
 ### 0.1.3 (8 August 2018)
 
 * Expenses can now be deleted.
+
+### 0.2.0 (13 August 2018)
+
+* Expenses can now be modified.
+* Expense date functionality was changed to make edit work

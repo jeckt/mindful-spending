@@ -68,5 +68,3 @@ class FunctionalTest(StaticLiveServerTestCase):
                              description]), count)
         self.assertEqual(len([ value for value in input_values if value ==
                              amount]), count)
-
-
