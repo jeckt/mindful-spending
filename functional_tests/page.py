@@ -27,6 +27,26 @@ class HomePage(Page):
         self.test.assertIn(f'${amount}', [row.text for row in rows])
         self.test.assertIn(expense_date.strftime('%d-%b-%Y'), [row.text for row in rows])
 
+    # TODO(steve): surely this test can be made more readible!
+    @wait
+    def wait_for_multiple_rows_in_list_table(self, description, amount,
+                                             expense_date, count):
+        rows = self.test.browser.find_elements_by_tag_name('td')
+        rows_text = [row.text for row in rows]
+        self.test.assertEqual(
+            len([text for text in rows_text if text == description]),
+            count
+        )
+        self.test.assertEqual(
+            len([text for text in rows_text if text == f'${amount}']),
+            count
+        )
+        self.test.assertEqual(
+            len([text for text in rows_text if text ==
+                 expense_date.strftime('%d-%b-%Y')]),
+            count
+        )
+
 class EditPage(Page):
 
     def update_date(self, new_date):
@@ -44,7 +64,10 @@ class EditPage(Page):
         input_.send_keys(new_amount)
 
     def update_expense(self):
-        self.test.browser.find_element_by_id(f'id_edit_1').click()
+        self.test.browser.find_element_by_id('id_edit_1').click()
+
+    def delete_expense(self, row_index):
+        self.test.browser.find_element_by_id(f'id_delete_{row_index}').click()
 
     def go_to_home_page(self):
         self.test.browser.find_element_by_id('id_home').click()
