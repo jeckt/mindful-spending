@@ -20,6 +20,15 @@ class HomePage(Page):
     def get_submit_input_button(self):
         return self.test.browser.find_element_by_id('id_submit')
 
+    def get_title(self):
+        return self.test.browser.title
+
+    def get_header(self):
+        return self.test.browser.find_element_by_tag_name('h1').text
+
+    def get_total_expenses(self):
+        return self.test.browser.find_elements_by_id('id_total_expense')
+
     @wait
     def wait_for_row_in_list_table(self, description, amount, expense_date):
         rows = self.test.browser.find_elements_by_tag_name('td')
